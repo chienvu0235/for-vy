@@ -18,21 +18,19 @@
     />
     <link rel="stylesheet" href="public_html/assets/css/steller.css" />
     <style>
-      /* Overlay style */
       #overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgb(255, 255, 255); /* Tăng độ tối lên */
+        background-color: rgb(255, 255, 255);
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 9999;
       }
 
-      /* Password box style */
       #password-box {
         background-color: white;
         padding: 20px;
@@ -41,12 +39,20 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
 
-      input[type="password"] {
-        padding: 10px;
-        margin: 10px 0;
+      .otp-input {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        font-size: 24px;
+        margin: 0 10px;
         border: 2px solid #ddd;
-        border-radius: 5px;
-        width: 80%;
+        border-radius: 10px;
+        transition: border-color 0.3s;
+      }
+
+      .otp-input:focus {
+        border-color: #4caf50;
+        outline: none;
       }
 
       button {
@@ -63,7 +69,7 @@
       }
     </style>
   </head>
-  <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+  <body id="home">
     <!-- Page Header -->
     <header class="header" id="home">
       <div class="container">
@@ -87,9 +93,39 @@
     <!-- Password Overlay -->
     <div id="overlay">
       <div id="password-box">
-        <h3>Mật khẩu là 4 số trên tay em nha</h3>
-        <input type="password" id="password" placeholder="Nhập mật khẩu" />
-        <button onclick="checkPassword()">Zô</button>
+        <h3>Mật khẩu là hình xăm của em nha</h3>
+        <h6>(Để ngăn em Hiếu đọc trộm ^^)</h6>
+        <div id="otp-container">
+          <input
+            type="text"
+            id="otp1"
+            class="otp-input"
+            maxlength="1"
+            oninput="moveToNext(this, 'otp2')"
+          />
+          <input
+            type="text"
+            id="otp2"
+            class="otp-input"
+            maxlength="1"
+            oninput="moveToNext(this, 'otp3')"
+          />
+          <input
+            type="text"
+            id="otp3"
+            class="otp-input"
+            maxlength="1"
+            oninput="moveToNext(this, 'otp4')"
+          />
+          <input
+            type="text"
+            id="otp4"
+            class="otp-input"
+            maxlength="1"
+            oninput="submitPassword()"
+          />
+        </div>
+        <button class="mt-3" onclick="checkPassword()">Xác nhận</button>
       </div>
     </div>
 
@@ -121,7 +157,7 @@
               <img src="public_html/assets/imgs/first-met-Vy.jpg" alt="" />
               <div class="overlay">
                 <div class="overlay-infos">
-                  <h5>Lần đầu được thấy em</h5>
+                  <h5>Lần đầu được thấy em, thật sự không muốn rời mắt</h5>
                 </div>
               </div>
             </div>
@@ -132,7 +168,10 @@
               <img src="public_html/assets/imgs/Vy_ao_trang.jpg" alt="" />
               <div class="overlay">
                 <div class="overlay-infos">
-                  <h5>Tìm kiếm về em nhiều hơn (Một chút )</h5>
+                  <h5>
+                    Càng tìm anh lại càng muốn biết nhiều về em hơn. Sắp thành
+                    fan cứng rùi ^^
+                  </h5>
                 </div>
               </div>
             </div>
@@ -146,7 +185,10 @@
               />
               <div class="overlay">
                 <div class="overlay-infos">
-                  <h5>Bất ngờ xỉu khi biết Tiktok của em</h5>
+                  <h5>
+                    Thấy tiktok của em, anh chỉ không biết mình có thể gặp em
+                    được không (Hot tiktoker mà)
+                  </h5>
                 </div>
               </div>
             </div>
@@ -156,7 +198,7 @@
               <img src="public_html/assets/imgs/Vy_fb_first-sign.jpg" alt="" />
               <div class="overlay">
                 <div class="overlay-infos">
-                  <h5>Nụ cười tỏa nắng(❁´◡`❁)</h5>
+                  <h5>Vẫn không thể rời mắt được nụ cười này (≧∀≦)ゞ</h5>
                 </div>
               </div>
             </div>
@@ -273,13 +315,42 @@
     <script src="public_html/assets/js/steller.js"></script>
 
     <script>
-      function checkPassword() {
-        var password = document.getElementById("password").value;
-        if (password === "5935") {
+      function moveToNext(currentInput, nextInputId) {
+        if (currentInput.value.length === currentInput.maxLength) {
+          document.getElementById(nextInputId).focus();
+        }
+      }
+
+      function submitPassword() {
+        var otp = [
+          document.getElementById("otp1").value,
+          document.getElementById("otp2").value,
+          document.getElementById("otp3").value,
+          document.getElementById("otp4").value,
+        ].join("");
+
+        if (otp.length === 4) {
+          checkPassword(otp);
+        }
+      }
+
+      // Kiểm tra mật khẩu
+      function checkPassword(otp) {
+        if (otp === "5935") {
           document.getElementById("overlay").style.display = "none";
         } else {
-          alert("Mật khẩu sai. em Hiếu đang xem trộm à 😡.");
+          alert("Mật khẩu sai. Vui lòng thử lại.");
+          resetOTP();
         }
+      }
+
+      // Đặt lại các ô nhập nếu sai mật khẩu
+      function resetOTP() {
+        document.getElementById("otp1").value = "";
+        document.getElementById("otp2").value = "";
+        document.getElementById("otp3").value = "";
+        document.getElementById("otp4").value = "";
+        document.getElementById("otp1").focus();
       }
     </script>
   </body>
