@@ -17,6 +17,51 @@
       href="public_html//assets/vendors/themify-icons/css/themify-icons.css"
     />
     <link rel="stylesheet" href="public_html/assets/css/steller.css" />
+    <style>
+      /* Overlay style */
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(255, 255, 255); /* Tăng độ tối lên */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      /* Password box style */
+      #password-box {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      input[type="password"] {
+        padding: 10px;
+        margin: 10px 0;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        width: 80%;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
   </head>
   <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
     <!-- Page Header -->
@@ -38,6 +83,15 @@
       </div>
     </header>
     <!-- End of Page Header -->
+
+    <!-- Password Overlay -->
+    <div id="overlay">
+      <div id="password-box">
+        <h3>Mật khẩu là 4 số trên tay em nha</h3>
+        <input type="password" id="password" placeholder="Nhập mật khẩu" />
+        <button onclick="checkPassword()">Zô</button>
+      </div>
+    </div>
 
     <!-- Portfolio section -->
     <section id="portfolio" class="section">
@@ -217,5 +271,16 @@
 
     <!-- steller js -->
     <script src="public_html/assets/js/steller.js"></script>
+
+    <script>
+      function checkPassword() {
+        var password = document.getElementById("password").value;
+        if (password === "5935") {
+          document.getElementById("overlay").style.display = "none";
+        } else {
+          alert("Mật khẩu sai. em Hiếu đang xem trộm à 😡.");
+        }
+      }
+    </script>
   </body>
 </html>
